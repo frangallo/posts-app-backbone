@@ -1,6 +1,6 @@
 Api.Routers.Router = Backbone.Router.extend({
   routes: {
-    "": "postsIndex",
+    "": "root",
     "posts/new": "postNew",
     "posts/:id": "postShow",
     "posts/:id/edit": "postEdit",
@@ -8,14 +8,16 @@ Api.Routers.Router = Backbone.Router.extend({
   },
 
   initialize: function (options) {
-    this.$rootEl = options.$rootEl;
+    this.$content = options.$content;
+    this.$sidebar = options.$sidebar;
     this.postCollection = new Api.Collections.Posts();
     this.postCollection.fetch();
+    this.postsIndex();
   },
 
   postsIndex: function () {
     var indexView = new Api.Views.PostsIndex({ collection: this.postCollection });
-    this.swap(indexView);
+    this.$sidebar.html(indexView.render().$el);
   },
 
   postShow: function (id) {
@@ -36,9 +38,20 @@ Api.Routers.Router = Backbone.Router.extend({
     this.swap(formView);
   },
 
+  root: function () {
+    this._currentView && this._currentView.remove();
+    this._currentView = null;
+  },
+
   swap: function (view) {
     this._currentView && this._currentView.remove();
     this._currentView = view;
-    this.$rootEl.html(view.render().$el);
+    this.$content.html(view.render().$el);
   },
+
+  // swapIndex: function (view) {
+  //   this._currentView && this._currentView.remove();
+  //   this._currentView = view;
+  //   this.$sidebar.html(view.render().$el);
+  // },
 });

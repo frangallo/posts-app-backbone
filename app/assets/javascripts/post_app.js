@@ -4,7 +4,7 @@ window.Api = {
   Views: {},
   Routers: {},
   initialize: function() {
-    new Api.Routers.Router({ $rootEl: $('#root') });
+    new Api.Routers.Router({ $sidebar: $('#sidebar'), $content: $('#content') });
     Backbone.history.start();
   }
 };

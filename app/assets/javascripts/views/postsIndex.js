@@ -3,6 +3,7 @@ Api.Views.PostsIndex = Backbone.View.extend({
 
   initialize: function(){
     this.listenTo(this.collection, "reset sync", this.render);
+    this.listenTo(this.collection, "destroy", this.root);
   },
 
   render: function(){
@@ -15,4 +16,8 @@ Api.Views.PostsIndex = Backbone.View.extend({
     });
     return this;
   },
+
+  root: function () {
+    Backbone.history.navigate("", { trigger: true });
+  }
 });
